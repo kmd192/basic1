@@ -1,5 +1,8 @@
 package com.sbs.basic1;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -294,6 +298,32 @@ public class HomeController {
        found.setAge(age);
 
         return "%d번 사람이 수정되었습니다.".formatted(id);
+    }
+
+    @GetMapping("/home/reqAndResp")
+    @ResponseBody
+    public void showReqAndResp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int age = Integer.parseInt(req.getParameter("age"));
+        resp.getWriter().append("Hello");
+    }
+
+    @GetMapping("/home/cookie/increase")
+    @ResponseBody
+    public int showIncrease(HttpServletRequest req, HttpServletResponse resp){
+        int countIntCookie = 0;
+
+        if(req.getCookies() != null) {
+                countIntCookie = Arrays.stream(req.getCookies())
+                    .filter(cookie -> cookie.getName().equals("count"))
+                    .map(cookie -> cookie.getValue())
+                    .mapToInt(Integer::parseInt)
+                    .findFirst()
+                    .orElse(0);
+        }
+
+        resp.addCookie(new Cookie("count", countIntCookie + 1 + ""));
+
+        return countIntCookie;
     }
 
 }
