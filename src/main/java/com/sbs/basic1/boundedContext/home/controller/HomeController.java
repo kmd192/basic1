@@ -316,21 +316,23 @@ public class HomeController {
 
     @GetMapping("/home/cookie/increase")
     @ResponseBody
-    public int showIncrease(HttpServletRequest req, HttpServletResponse resp){
-        int countIntCookie = 0;
+    public long showIncrease(HttpServletRequest req, HttpServletResponse resp){
+        long countInCookie = 0;
 
         if(req.getCookies() != null) {
-                countIntCookie = Arrays.stream(req.getCookies())
+                countInCookie = Arrays.stream(req.getCookies())
                     .filter(cookie -> cookie.getName().equals("count"))
                     .map(cookie -> cookie.getValue())
-                    .mapToInt(Integer::parseInt)
+                    .mapToLong(Long::parseLong)
                     .findFirst()
                     .orElse(0);
         }
 
-        resp.addCookie(new Cookie("count", countIntCookie + 1 + ""));
+        long newCountInCookie = countInCookie + 1;
 
-        return countIntCookie;
+        resp.addCookie(new Cookie("count", newCountInCookie + ""));
+
+        return newCountInCookie;
     }
 
     @GetMapping("/home/user1")
