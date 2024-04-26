@@ -12,8 +12,8 @@ public class MemberRepository {
     public MemberRepository(){
         members = new ArrayList<>();
 
-        members.add(new Member("user2" , "1234"));
         members.add(new Member("user1" , "1234"));
+        members.add(new Member("user2" , "1234"));
         members.add(new Member("user3" , "1234"));
         members.add(new Member("user4" , "1234"));
         members.add(new Member("user5" , "1234"));
