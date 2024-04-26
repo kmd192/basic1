@@ -25,12 +25,13 @@ public class HomeController {
 
     private List<Person> people = new ArrayList<>();
     //필드주입
-    @Autowired
-    private MemberService memberService;
+    //@Autowired
+    private final MemberService memberService;
 
     public HomeController(MemberService memberService){
         count = -1;
         people = new ArrayList<>();
+        this.memberService = memberService;
     }
 
     @GetMapping("/home/main")
